@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ApiVersionControl.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ApiVersionControl.DTO;
 
-namespace ApiVersionControl.Controllers.V1
+namespace ApiVersionControl.Controllers.V2
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/v{version:ApiVersion}/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -22,8 +22,7 @@ namespace ApiVersionControl.Controllers.V1
         {
             _httpClient = httpClient;
         }
-
-        [MapToApiVersion("1.0")]
+        [MapToApiVersion("2.0")]
         [HttpGet(Name = "GetUsersData")]
         public async Task<IActionResult> GetUsersDataAsync()
         {
@@ -33,9 +32,8 @@ namespace ApiVersionControl.Controllers.V1
             var response = await _httpClient.GetStreamAsync(ApiTestUrl);
 
             var usersData = await JsonSerializer.DeserializeAsync<UsersResponseData>(response);
-            return Ok(usersData);
+            var users = usersData?.data;
+            return Ok(users);
         }
-
     }
-
 }

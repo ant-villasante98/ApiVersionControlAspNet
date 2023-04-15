@@ -7,7 +7,7 @@ public class User
     public string? lastName { get; set; }
     public string? picture { get; set; }
 }
-public class UserResponseData
+public class UsersResponseData
 {
     public User[]? data { get; set; }
     public int total { get; set; }
